@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<title>Тестовое задание</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, height=device-height">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<style type="text/css">
+		@font-face {
+			font-family: "Exo2.0"; 
+			src: url(fonts/Exo2.0-Thin.otf); 
+		}
+		h1{
+			font-size: 36px;
+			color: #ffffff;
+			font-family: "Exo2.0";
+			text-align: center;
+			filter: drop-shadow(0px 1px 0.5px #000000);
+		}
+		body {
+			margin: 0;
+			height: 100%;
+			background: url(img/background.png);
+		    background-size: cover;
+			}
+		.main-div{
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			column-gap: 80px;
+		   }
+		.container{
+			display: flex;
+		    justify-content: center;
+		    flex-direction: column;
+		    height: 100vh;
+		    align-items: center;
+		   }
+		.description-default, .description-selected, .description-disabled{
+		   	font-size: 13px;
+			line-height: 16px;
+			font-family: "Trebuchet MS";
+			text-align: center;
+			filter: drop-shadow(0px 1px 0.5px #000000);
+			margin-top: 15px;
+		   }
+		   .description-default, .description-selected{
+		   		color: #ffffff;
+		   }
+		   .description-disabled{
+		   		color: #ffff66;
+		   }
+		   .buy-span{
+		   	color:#1a95d7;
+		   	cursor: pointer;
+		   }
+
+		   @media (max-width: 920px) {
+			  .main-div{
+			  	display: flex;
+			    flex-direction: row;
+			    justify-content: center;
+			    column-gap: 80px;
+			    flex-wrap: wrap;
+			  }
+			  .first-block{
+			  	width: 100%;
+			  	text-align: center;
+			  }
+			  .container{
+			  	height: auto;
+			  }
+			}
+			@media (max-width: 540px) {
+			.main-div{
+			    flex-direction: column;
+			  }
+			}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Ты сегодня покормил кота?</h1>
+		<div class="main-div">
+			<div class="first-block">
+				<img src="img/С фуа-гра - Default.png" class="img default" alt="">
+				<p class="description-default">Чего сидишь? Порадуй котэ, <span class="buy-span">купи.</span></p>
+				<p class="description-selected" style="display: none;">Печень утки разварная с артишоками.</p>
+				<p class="description-disabled" style="display: none;">Печалька, с фуа-гра закончился.</p>
+			</div>
+			<div>
+				<img src="img/С рыбой - Default.png" class="img default" alt="">
+				<p class="description-default">Чего сидишь? Порадуй котэ, <span class="buy-span">купи.</span></p>
+				<p class="description-selected" style="display: none;">Головы щучьи с чесноком да свежайшая сёмгушка.</p>
+				<p class="description-disabled" style="display: none;">Печалька, с рыбой закончился.</p>
+			</div>
+			<div>
+				<img src="img/С курой - Disabled.png" class="img disabled" alt="">
+				<p class="description-default" style="display: none;">Чего сидишь? Порадуй котэ, <span class="buy-span">купи.</span></p>
+				<p class="description-selected" style="display: none;">Филе из цыплят с трюфелями в бульоне.</p>
+				<p class="description-disabled">Печалька, с курой закончился.</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+<script type="text/javascript">
+	$(".img").mouseover(function(){
+		cur_class=$(this).attr("class");
+		cur_img=$(this).attr("src");
+		if (cur_class.includes("default")){
+			new_img=cur_img.replace("Default","DefaultHover")
+			$(this).attr("src",new_img)
+		}
+		if (cur_class.includes("selected")){
+			new_img=cur_img.replace("Selected","SelectedHover")
+			$(this).attr("src",new_img)
+		}
+	})
+
+	$(".img").mouseout(function(){
+		cur_class=$(this).attr("class");
+		cur_img=$(this).attr("src");
+		if (cur_class.includes("default")){
+			new_img=cur_img.replace("DefaultHover","Default")
+			$(this).attr("src",new_img)
+		}
+		if (cur_class.includes("selected")){
+			new_img=cur_img.replace("SelectedHover","Selected")
+			$(this).attr("src",new_img)
+		}
+	})
+
+	$(".img").click(function(){
+		cur_class=$(this).attr("class");
+		cur_img=$(this).attr("src");
+		if (cur_class.includes("default")){
+			new_img=cur_img.replace("Default","Selected")
+			$(this).attr("src",new_img)
+			$(this).removeClass('default')
+			$(this).addClass('selected')
+			$(this).nextAll(".description-default").css("display","none")
+			$(this).nextAll(".description-selected").css("display","block")
+		}
+		if (cur_class.includes("selected")){
+			new_img=cur_img.replace("Selected","Default")
+			$(this).attr("src",new_img)
+			$(this).removeClass('selected')
+			$(this).addClass('default')
+			$(this).nextAll(".description-selected").css("display","none")
+			$(this).nextAll(".description-default").css("display","block")
+		}
+	})
+
+	$(".buy-span").click(function(){
+		$(this).parent().prevAll(".img").click();
+	})
+</script>
